@@ -16,7 +16,7 @@ $client_id = "vsh_solarinfo";             // MQTT ID pro tohoto klienta
 $messageHead = "vsh_solarinfo/solarinfo"; // MQTT hlavicka
 $delay = 10;                              // Pauza mezi posíláním
 $solarServer = "";                        // Solar server
-$solarPort = "";                          // Solar port
+$solarPort = 8888;                          // Solar port
 $solarTimeout = 10;                       // Solar timeout
 $solarString = "2b0104db11855b0f0a";      // Solar string na poslani
 
@@ -40,15 +40,15 @@ while(1) { // Nekonecna smycka
     if ($mqtt->connect(true, NULL, $username, $password)) {
 
         ## Kdyz se ss spojí
-        if ($fp) {
-            fwrite($fp, $solarString);
-            while (!feof($fp)) {
+        if ($ss) {
+            fwrite($ss, $solarString);
+            while (!feof($ss)) {
                 ### Odpoved od ss
-                $solarResp = fgets($fp, 128);
+                $solarResp = fgets($ss, 128);
             }
 
             ### Zavreni spojeni
-            fclose($fp);
+            fclose($ss);
         } else {
             echo "$errstr ($errno)<br />\n";
         }
